@@ -1,1 +1,1 @@
-THis is Adam's first girt project!
+THis is Adam's first git project!
