@@ -1,0 +1,8 @@
+---
+- name: Unmount device from /repo
+  hosts: all
+  tasks: 
+    - name: dismouting device
+      mount:
+       path: /repo
+       state: unmounted

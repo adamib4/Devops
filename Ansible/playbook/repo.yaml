@@ -1,0 +1,13 @@
+---
+- name : Mouting /dev/sr0 to /repo 
+  hosts: all
+  tasks:
+    - name : mounting device read only
+      mount:
+       path: /repo
+       src: /dev/sr0
+       fstype: iso9660
+       state: mounted
+       opts: ro
+        
+       

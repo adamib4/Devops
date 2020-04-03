@@ -1,0 +1,6 @@
+---
+- name: Poweroff
+  hosts: all
+  tasks:
+    - name : Powering off all nodes
+      command: /sbin/poweroff 

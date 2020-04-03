@@ -1,0 +1,7 @@
+
+- name: Testing Nodes Network connection
+  hosts:
+    all
+  tasks:
+   -  action: ping
+  
