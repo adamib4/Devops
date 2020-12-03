@@ -1,0 +1,12 @@
+---
+- name: Ensure Nginx installed.
+  package: 
+    name: nginx
+    state: "{{ nginx_package_state }}"
+
+- name: Ensure Nginx starts and enable on boot.
+  service: 
+    name: nginx
+    state: "{{ nginx_state }}"
+    enabled: "{{ nginx_enabled_state }}"
+

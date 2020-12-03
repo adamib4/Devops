@@ -1,0 +1,31 @@
+---
+- name: Ensure Haproxy is installed.
+  package: 
+    name: haproxy
+    state: present
+
+- name: Ensure haproxy is started and enabled on boot
+  service:
+    name: haproxy
+    state: started
+    enabled: yes
+
+- name: configure rsyslog to handle HAProxy logs.
+  template:
+    src: rsyslog.conf
+    dest: /etc/rsyslog.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart rsyslog
+  
+- name: configure haproxy configuration file.
+  blockinfile:
+    path: /etc/haproxy/haproxy.cfg
+    block: |
+      frontend app_servers *:80
+        default_backend apps
+      backend apps
+        server app1 192.168.60.4:80 check
+        server app2 192.168.60.5:80 check
+  notify: restart haproxy

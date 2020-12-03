@@ -1,0 +1,4 @@
+---
+nginx_server_root: /etc/nginx
+nginx_root_dir:  /usr/share/nginx/html
+nginx_conf_path: /etc/nginx/nginx.conf

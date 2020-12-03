@@ -1,0 +1,51 @@
+---
+- hosts: app
+  become: true
+
+  roles:
+    - ../roles/nginx
+    - ../roles/php
+  vars:
+    app: "{{ansible_enp0s8.ipv4.address }}"
+  tasks:
+    - name: configuring php with nginx
+      lineinfile:
+        path: /etc/php-fpm.d/www.conf
+        regexp: '{{item.name}}'
+        line: '{{item.src}}'
+      with_items:
+        - { name: user = apache, src: user = nginx }
+        - { name: group = apache, src: group = nginx }
+        - { name: en = 127.0.0.1:9000, src: listen = /var/run/php-fpm/php-fpm.sock; }
+        - { name: ;listen.owner = nginx , src: listen.owner = nginx}
+        - { name: ;listen.group = nginx , src: listen.group = nginx}
+        - { name: ;listen.mode = 0660 , src: listen.mode = 0660}
+
+    - name: configure nginx
+      template:
+        src: "{{item.name}}"
+        dest: "{{item.src}}"
+      with_items:
+        - { name: default.conf.j2, src: /etc/nginx/conf.d/default.conf }
+        - { name: info.php, src: /usr/share/nginx/html/info.php}
+
+    - name: restart php-fpm and nginx
+      service: 
+        name: "{{item}}"
+        state: restarted
+      with_items:
+        - nginx
+        - php-fpm
+    
+- hosts: balancer
+  become: true
+
+  roles:
+    - ../roles/nginx
+    - ../roles/HaProxy
+
+- hosts: db
+  become: true
+
+  roles:
+    - ../roles/mysql

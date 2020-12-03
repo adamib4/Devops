@@ -1,0 +1,8 @@
+---
+# Set Nginx initial state. Recommemded values: 'started' 'stopped'
+nginx_state: started
+# Nginx package state: use 'present' 'installed' to install. 'latest' will update the specified package if it's not of the latest available version.
+nginx_package_state: present
+
+nginx_enabled_state: true
+

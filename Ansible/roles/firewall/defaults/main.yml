@@ -1,0 +1,10 @@
+---
+firewall_state: started
+firewall_enabled_at_boot: true
+
+firewall_allowed_tcp_ports: []
+  # - "22/tcp"
+  # - "80/tcp"
+  # - "443/tcp"
+
+firewall_allowed_udp_ports: []

@@ -1,0 +1,11 @@
+---
+# Set mysql initial state. Recommemded values: 'started' 'stopped'
+mysql_state: started
+# mysql package state: use 'present' 'installed' to install. 'latest' will update the specified package if it's not of the latest available version.
+mysql_package_state: latest
+
+mysql_enabled_state: true
+
+mysql_port: []
+
+mysql_root_password: password

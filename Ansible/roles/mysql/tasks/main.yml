@@ -1,0 +1,38 @@
+---
+- name: Install mariadb
+  package: 
+    name: "{{ item }}"
+    state: "{{mysql_package_state}}"
+  with_items:
+    - mariadb-server
+    - MySQL-python
+
+- name: start mariadb and enabled on boot
+  service:
+    name: mariadb
+    state: "{{mysql_state}}"
+    enabled: "{{mysql_enabled_state}}"
+
+- name: Removes anonymous user account for localhost
+  community.mysql.mysql_user:
+    name: ''
+    host: localhost
+    state: absent
+    
+- name: update root password
+  community.mysql.mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+
+- name: Copy root credential as my.cnf config file
+  template:
+    src: root.cnf.j2
+    dest: ~/.my.cnf
+    owner: root
+    group: root
+    mode: '0600'
